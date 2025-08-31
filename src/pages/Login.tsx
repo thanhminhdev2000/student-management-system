@@ -1,9 +1,10 @@
-import { Eye, EyeOff, Lock, Star, User } from 'lucide-react';
+import type { UserData } from '@/types';
+import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import React, { useState } from 'react';
 import { authHelpers, supabase } from '../lib/supabase';
 
 interface LoginProps {
-  onLoginSuccess: (user: any) => void;
+  onLoginSuccess: (user: UserData) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
@@ -73,18 +74,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-red-700 rounded-full mb-4">
-            <Star className="w-10 h-10 text-yellow-400" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Trường Quân sự
-          </h1>
-          <p className="text-gray-600">Quân khu 5</p>
-          <div className="w-16 h-1 bg-red-700 mx-auto mt-3 rounded-full"></div>
-        </div>
-
         {/* Login Form */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
@@ -203,21 +192,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             Liên hệ hỗ trợ kỹ thuật:
             <span className="font-medium text-red-700 ml-1">0236.xxx.xxxx</span>
           </p>
-        </div>
-
-        {/* Demo Accounts Info */}
-        <div className="mt-4 bg-white rounded-lg shadow p-4">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">
-            Tài khoản demo:
-          </h3>
-          <div className="space-y-1 text-xs text-gray-600">
-            <p>
-              <strong>Giảng viên:</strong> giaovien@quansu.edu.vn / 123456
-            </p>
-            <p>
-              <strong>Học viên:</strong> hocvien@quansu.edu.vn / 123456
-            </p>
-          </div>
         </div>
       </div>
     </div>

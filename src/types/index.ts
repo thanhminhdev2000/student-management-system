@@ -6,9 +6,3 @@ export interface UserData {
   unit: string;
   avatar_url?: string;
 }
-
-export interface LayoutProps {
-  children: React.ReactNode;
-  onLogout: () => void;
-  user: UserData | null;
-}

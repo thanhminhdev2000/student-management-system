@@ -1,15 +1,19 @@
 import { menuItems } from '@/constants/data';
-import type { LayoutProps } from '@/types';
+import type { UserData } from '@/types';
 import { LogOut, Menu, Star, User, X } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+export interface LayoutProps {
+  children: React.ReactNode;
+  onLogout: () => void;
+  user: UserData | null;
+}
 
 const Layout: React.FC<LayoutProps> = ({ children, onLogout, user }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
-
-  console.log({ user });
 
   const isActivePath = (path: string) =>
     location.pathname === path ||
