@@ -84,7 +84,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router basename="/student-management-system">
+    <Router>
       {!isAuthenticated ? (
         <Routes>
           <Route
