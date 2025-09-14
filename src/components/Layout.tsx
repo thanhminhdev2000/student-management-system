@@ -1,4 +1,4 @@
-import { menuItems } from '@/constants/data';
+import { menuItems } from '@/constants';
 import type { UserData } from '@/types';
 import { LogOut, Menu, Star, User, X } from 'lucide-react';
 import React, { useState } from 'react';

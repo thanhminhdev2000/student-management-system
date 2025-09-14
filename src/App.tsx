@@ -5,7 +5,7 @@ import { supabase } from './lib/supabase';
 // Pages
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
-import Exam from './pages/Exam';
+import ExamShuffler from './pages/ExamShuffler';
 import Login from './pages/Login';
 import QuestionBank from './pages/QuestionBank';
 import Reports from './pages/Reports';
@@ -99,7 +99,7 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/students" element={<Students />} />
             <Route path="/question-bank" element={<QuestionBank />} />
-            <Route path="/exam" element={<Exam />} />
+            <Route path="/exam" element={<ExamShuffler />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<Dashboard />} />
