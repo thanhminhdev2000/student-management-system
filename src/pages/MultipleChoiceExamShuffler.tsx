@@ -2,7 +2,11 @@
 import Step1_FileUpload from '@/components/Step1_FileUpload';
 import Step2_SettingsAndGenerate from '@/components/Step2_SettingsAndGenerate';
 import Step3_DownloadExams from '@/components/Step3_DownloadExams';
-import { ANSWER_REGEX, QUESTION_REGEX } from '@/constants/examConstants';
+import {
+  ANSWER_REGEX,
+  MULTIPLE_CHOICE_INSTRUCTIONS,
+  QUESTION_REGEX,
+} from '@/constants/examConstants';
 import type { Exam, ExamSettings, Question } from '@/types/examTypes';
 import { useCallback, useState } from 'react';
 
@@ -87,14 +91,26 @@ const MultipleChoiceExamShuffler = () => {
     return parsedQuestions;
   }, []);
 
-  const handleFileProcessed = useCallback((newQuestions: Question[]) => {
-    setQuestions(newQuestions);
-    setGeneratedExams([]);
-    setSettings((prev) => ({
-      ...prev,
-      numberOfQuestionsToGenerate: newQuestions.length,
-    }));
-  }, []);
+  const handleTextProcessed = useCallback(
+    (text: string) => {
+      const newQuestions = parseQuestions(text);
+      setQuestions(newQuestions);
+      setGeneratedExams([]);
+      setSettings((prev) => ({
+        ...prev,
+        numberOfQuestionsToGenerate: newQuestions.length,
+      }));
+      // Thêm kiểm tra để hiển thị status
+      if (newQuestions.length === 0 && text.length > 0) {
+        setStatus(
+          'error: Không tìm thấy câu hỏi nào. Vui lòng kiểm tra định dạng file trắc nghiệm.',
+        );
+      } else if (newQuestions.length > 0) {
+        setStatus('success: Upload và phân tích file thành công');
+      }
+    },
+    [parseQuestions],
+  );
 
   const shuffleArray = <T,>(array: T[]): T[] => {
     const shuffled = [...array];
@@ -166,12 +182,13 @@ const MultipleChoiceExamShuffler = () => {
       </h1>
 
       <Step1_FileUpload
-        onFileProcessed={handleFileProcessed}
+        onTextProcessed={handleTextProcessed}
         loading={loading}
         setLoading={setLoading}
         status={status}
         setStatus={setStatus}
         questions={questions}
+        instructions={MULTIPLE_CHOICE_INSTRUCTIONS}
       />
 
       {questions.length > 0 && (
