@@ -29,18 +29,17 @@ const Step3_DownloadEssayExams = ({ exams, settings }: Props) => {
         return;
       }
 
-      const { Document, Paragraph, TextRun, AlignmentType } = window.docx;
+      const { Document, Paragraph, TextRun } = window.docx;
 
       const docContent: any[] = [];
 
       // Tiêu đề
       docContent.push(
         new Paragraph({
-          children: [new TextRun({ text: exam.code, size: 36, bold: true })],
-          alignment: AlignmentType.CENTER,
+          children: [new TextRun({ text: exam.code, size: 17, bold: true })],
         }),
       );
-      docContent.push(new Paragraph('')); // Dòng trống sau tiêu đề
+      docContent.push(new Paragraph(''));
 
       // Nội dung câu hỏi
       exam.questions.forEach((question, index) => {
@@ -49,13 +48,21 @@ const Step3_DownloadEssayExams = ({ exams, settings }: Props) => {
             children: [
               new TextRun({
                 text: `${settings.questionPrefix} ${index + settings.startingNumber}. ${question.text}`,
-                bold: true,
-                size: 17, // Cỡ chữ 8.5pt (8.5 * 2)
+                size: 17,
               }),
             ],
           }),
         );
-        // THÊM 1 DÒNG TRẮNG ĐỂ GHI CÂU TRẢ LỜI
+
+        docContent.push(
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: '..........................................................................................................................................................................................................................',
+              }),
+            ],
+          }),
+        );
         docContent.push(new Paragraph(''));
       });
 
@@ -65,11 +72,10 @@ const Step3_DownloadEssayExams = ({ exams, settings }: Props) => {
             properties: {
               page: {
                 margin: {
-                  // LỀ HẸP (0.5 inch ~ 720 twips)
-                  top: 720,
-                  right: 720,
-                  bottom: 720,
-                  left: 720,
+                  top: 500,
+                  right: 500,
+                  bottom: 500,
+                  left: 500,
                 },
               },
             },

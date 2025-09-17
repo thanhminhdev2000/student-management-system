@@ -26,7 +26,7 @@ const EssayExamShuffler = () => {
     startingNumber: 1,
     numberOfExams: 2,
     numberOfQuestionsToGenerate: 0,
-    examCode: '',
+    examCode: 'Đề',
     shuffleQuestions: true,
     // Các trường không áp dụng
     shuffleAnswers: false,
@@ -132,9 +132,12 @@ const EssayExamShuffler = () => {
       for (let i = 0; i < settings.numberOfExams; i++) {
         exams.push({
           id: `exam-${i + 1}`,
-          code: `${settings.examCode}-${String(i + 1).padStart(3, '0')}`,
-          questions: selectedQuestions, // questions không có answers
-          answerKey: [], // Không có đáp án
+          code: `${settings.examCode} ${String(i + 1)}`,
+          questions: selectedQuestions.map((q) => ({
+            ...q,
+            answers: [],
+          })),
+          answerKey: [],
           createdAt: new Date(),
         });
       }

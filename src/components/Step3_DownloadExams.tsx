@@ -49,7 +49,6 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
         TableRow,
         TableCell,
         WidthType,
-        TabStopPosition,
         TabStopType,
       } = window.docx;
 
@@ -78,7 +77,8 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
         const totalQuestions = exam.answerKey.length;
         const numRows = Math.ceil(totalQuestions / columnCount);
         const cellsPerRow = Array(columnCount).fill(0);
-        const rowsData = cellsPerRow.map(() => []);
+        const rowsData: { questionNumber: number; answer: string }[][] =
+          cellsPerRow.map(() => []);
 
         exam.answerKey.forEach((answer, index) => {
           const columnIndex = index % columnCount;
@@ -109,11 +109,9 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
         fileName = `${exam.code}.docx`;
         docContent.push(
           new Paragraph({
-            children: [new TextRun({ text: exam.code, size: 36, bold: true })],
-            alignment: AlignmentType.CENTER,
+            children: [new TextRun({ text: exam.code, size: 20, bold: true })],
           }),
         );
-        docContent.push(new Paragraph(''));
 
         exam.questions.forEach((question, index) => {
           docContent.push(
@@ -171,7 +169,6 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
               );
             });
           }
-          docContent.push(new Paragraph('')); // Dòng trống sau mỗi câu
         });
       }
 
@@ -181,10 +178,10 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
             properties: {
               page: {
                 margin: {
-                  top: 720,
-                  right: 720,
-                  bottom: 720,
-                  left: 720,
+                  top: 500,
+                  right: 500,
+                  bottom: 500,
+                  left: 500,
                 },
               },
             },
@@ -269,7 +266,7 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
           : null;
 
         let answerText = 'N/A';
-        if (correctAnswer) {
+        if (correctAnswer && questionInThisExam) {
           const correctIndex = questionInThisExam.answers.findIndex(
             (a) => a.id === correctAnswer.id,
           );
@@ -303,7 +300,7 @@ const Step3_DownloadExams = ({ exams, settings }: Props) => {
               children: [
                 new TextRun({
                   text: 'Bảng đáp án tổng hợp',
-                  size: 30,
+                  size: 20,
                   bold: true,
                 }),
               ],
