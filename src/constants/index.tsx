@@ -1,7 +1,8 @@
 import {
   BarChart3,
-  FileText,
+  FileEdit,
   LayoutDashboard,
+  ListChecks,
   Settings,
   Users,
 } from 'lucide-react';
@@ -23,14 +24,14 @@ export const menuItems = [
   },
   {
     id: 'multiple-choice-exam',
-    icon: FileText,
+    icon: ListChecks,
     label: 'Thi trắc nghiệm',
     path: '/multiple-choice-exam',
     color: 'text-orange-600',
   },
   {
     id: 'essay-exam',
-    icon: FileText,
+    icon: FileEdit,
     label: 'Thi tự luận',
     path: '/essay-exam',
     color: 'text-orange-600',
