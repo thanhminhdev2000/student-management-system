@@ -22,10 +22,17 @@ export const menuItems = [
     color: 'text-green-600',
   },
   {
-    id: 'exam',
+    id: 'multiple-choice-exam',
     icon: FileText,
-    label: 'Thi & Kiểm tra',
-    path: '/exam',
+    label: 'Thi trắc nghiệm',
+    path: '/multiple-choice-exam',
+    color: 'text-orange-600',
+  },
+  {
+    id: 'essay-exam',
+    icon: FileText,
+    label: 'Thi tự luận',
+    path: '/essay-exam',
     color: 'text-orange-600',
   },
   {
