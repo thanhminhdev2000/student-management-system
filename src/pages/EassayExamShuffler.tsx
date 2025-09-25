@@ -119,17 +119,19 @@ const EssayExamShuffler = () => {
     setGeneratedExams([]);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Giả lập thời gian xử lý
+      await new Promise((resolve) => setTimeout(resolve, 500));
       const exams: Exam[] = [];
-      const questionsToUse = settings.shuffleQuestions
-        ? shuffleArray(questions)
-        : [...questions];
-      const selectedQuestions = questionsToUse.slice(
-        0,
-        settings.numberOfQuestionsToGenerate,
-      );
 
       for (let i = 0; i < settings.numberOfExams; i++) {
+        const shuffledQuestions = settings.shuffleQuestions
+          ? shuffleArray(questions)
+          : [...questions];
+
+        const selectedQuestions = shuffledQuestions.slice(
+          0,
+          settings.numberOfQuestionsToGenerate,
+        );
+
         exams.push({
           id: `exam-${i + 1}`,
           code: `${settings.examCode} ${String(i + 1)}`,
@@ -141,6 +143,7 @@ const EssayExamShuffler = () => {
           createdAt: new Date(),
         });
       }
+
       setGeneratedExams(exams);
     } catch (error) {
       console.error('Lỗi khi tạo đề thi:', error);

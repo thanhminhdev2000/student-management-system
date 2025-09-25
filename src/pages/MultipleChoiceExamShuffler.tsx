@@ -129,15 +129,18 @@ const MultipleChoiceExamShuffler = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       const exams: Exam[] = [];
-      const shuffledQuestions = settings.shuffleQuestions
-        ? shuffleArray(questions)
-        : [...questions];
-      const questionsToUse = shuffledQuestions.slice(
-        0,
-        settings.numberOfQuestionsToGenerate,
-      );
 
       for (let i = 0; i < settings.numberOfExams; i++) {
+        // Shuffle riêng cho từng đề
+        const shuffledQuestions = settings.shuffleQuestions
+          ? shuffleArray(questions)
+          : [...questions];
+
+        const questionsToUse = shuffledQuestions.slice(
+          0,
+          settings.numberOfQuestionsToGenerate,
+        );
+
         const examQuestions = questionsToUse.map((q) => {
           const nonFixedAnswers = q.answers.filter((a) => !a.isFixed);
           const fixedAnswers = q.answers.filter((a) => a.isFixed);
@@ -148,10 +151,12 @@ const MultipleChoiceExamShuffler = () => {
               : q.answers,
           };
         });
+
         const answerKey = examQuestions.map((q) => {
           const correctIndex = q.answers.findIndex((a) => a.isCorrect);
           return String.fromCharCode(65 + correctIndex);
         });
+
         exams.push({
           id: `exam-${i + 1}`,
           code: settings.examCode
@@ -162,6 +167,7 @@ const MultipleChoiceExamShuffler = () => {
           createdAt: new Date(),
         });
       }
+
       setGeneratedExams(exams);
     } catch (error) {
       console.error('Lỗi khi tạo đề thi:', error);
