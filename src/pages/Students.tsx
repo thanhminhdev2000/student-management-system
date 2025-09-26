@@ -18,6 +18,7 @@ import {
   Users,
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 interface Student {
@@ -159,9 +160,13 @@ const Students: React.FC = () => {
             Tổng số: {filteredStudents.length} học viên
           </p>
         </div>
+
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-gray-500" />
           <Badge variant="secondary">{students.length} học viên</Badge>
+          <Link to="/add-student">
+            <Button>Thêm học viên</Button>
+          </Link>
         </div>
       </div>
 
