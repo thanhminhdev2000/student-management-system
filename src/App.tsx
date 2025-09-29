@@ -4,7 +4,8 @@ import { supabase } from './lib/supabase';
 
 // Pages
 import Layout from './components/Layout';
-import AddStudent from './pages/AddStudent';
+import { LocationProvider } from './context/LocationContext';
+import CreateStudent from './pages/CreateStudent';
 import Dashboard from './pages/Dashboard';
 import EassayExamShuffler from './pages/EassayExamShuffler';
 import Login from './pages/Login';
@@ -13,10 +14,11 @@ import QuestionBank from './pages/QuestionBank';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Students from './pages/Students';
+import type { UserData } from './types';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Kiểm tra session Supabase khi app khởi chạy
@@ -53,15 +55,12 @@ const App: React.FC = () => {
           setIsAuthenticated(false);
           localStorage.removeItem('user');
         }
+        subscription.subscription.unsubscribe();
       },
     );
-
-    return () => {
-      subscription.subscription.unsubscribe();
-    };
   }, []);
 
-  const handleLoginSuccess = (profile: any) => {
+  const handleLoginSuccess = (profile: UserData) => {
     setUserProfile(profile); // Cập nhật state khi đăng nhập thành công
     setIsAuthenticated(true);
   };
@@ -86,34 +85,36 @@ const App: React.FC = () => {
   }
 
   return (
-    <Router basename="/student-management-system/">
-      {!isAuthenticated ? (
-        <Routes>
-          <Route
-            path="*"
-            element={<Login onLoginSuccess={handleLoginSuccess} />}
-          />
-        </Routes>
-      ) : (
-        <Layout onLogout={handleLogout} user={userProfile}>
+    <LocationProvider>
+      <Router basename="/student-management-system/">
+        {!isAuthenticated ? (
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/add-student" element={<AddStudent />} />
-            <Route path="/question-bank" element={<QuestionBank />} />
             <Route
-              path="/multiple-choice-exam"
-              element={<MultipleChoiceExamShuffler />}
+              path="*"
+              element={<Login onLoginSuccess={handleLoginSuccess} />}
             />
-            <Route path="/essay-exam" element={<EassayExamShuffler />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="*" element={<Dashboard />} />
           </Routes>
-        </Layout>
-      )}
-    </Router>
+        ) : (
+          <Layout onLogout={handleLogout} user={userProfile}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/students/create" element={<CreateStudent />} />
+              <Route path="/question-bank" element={<QuestionBank />} />
+              <Route
+                path="/multiple-choice-exam"
+                element={<MultipleChoiceExamShuffler />}
+              />
+              <Route path="/essay-exam" element={<EassayExamShuffler />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<Dashboard />} />
+            </Routes>
+          </Layout>
+        )}
+      </Router>
+    </LocationProvider>
   );
 };
 

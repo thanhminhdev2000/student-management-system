@@ -164,7 +164,7 @@ const Students: React.FC = () => {
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-gray-500" />
           <Badge variant="secondary">{students.length} học viên</Badge>
-          <Link to="/add-student">
+          <Link to="/students/create">
             <Button>Thêm học viên</Button>
           </Link>
         </div>
